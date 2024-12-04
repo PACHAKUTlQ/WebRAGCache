@@ -28,38 +28,37 @@ class KeywordGenerator:
         Note that the search results based on your keywords will be fed into Large Language Models to assist in answering the user's query. Therefore, you should generate search keywords for information you think requires searching most, instead of directly searching user prompt.
 
         If the user asks about time-related information (e.g. news, weather, latest progress in a certain field), one of the tags must be the current date: "{current_date}".
+
         The output should be a JSON text in the following format:
         {{
-        "search_keyword": "example search keyword",
-        "tags": ["tag1", "tag2", "tag3"]
+            "search_keyword": "example search keyword",
+            "tags": ["tag1", "tag2", "tag3"]
         }}
 
         Only provide the JSON output, without any explanations.
-
-        Examples:
 
         Example 1:
         User prompt: "text embedding"
         Output:
         {{
-        "search_keyword": "text embedding",
-        "tags": ["embedding", "NLP", "LLM", "RAG"]
+            "search_keyword": "text embedding",
+            "tags": ["embedding", "NLP", "LLM", "RAG"]
         }}
 
         Example 2:
         User prompt: "What happened in New York recently?"
         Output:
         {{
-        "search_keyword": "New York latest news",
-        "tags": ["New York", "news", "{{current_date}}"]
+            "search_keyword": "New York latest news",
+            "tags": ["New York", "news", "{{current_date}}"]
         }}
 
         Example 3: (In this example, user prompt contains unnecessary information. Necessary information to search is Spotify's frontend tech stack instead of user developing chatbot website.)
         User prompt: "I want to develop an AI chatbot website using frontend tech stack similar to Spotify."
         Output:
         {{
-        "search_keyword": "Spotify frontend tech stack",
-        "tags": ["Spotify", "frontend", "tech stack"]
+            "search_keyword": "Spotify frontend tech stack",
+            "tags": ["Spotify", "frontend", "tech stack"]
         }}
         """
 
@@ -75,7 +74,7 @@ class KeywordGenerator:
                     "role":
                     "user",
                     "content":
-                    f"Now please generate json based on user prompt:```\n{prompt}\n```"
+                    f"Now please generate json based on user prompt:\n```\n{prompt}\n```"
                 },
             ],
         )
