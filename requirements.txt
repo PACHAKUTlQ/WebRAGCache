@@ -1,4 +1,4 @@
-dotenv
 openai
+python-dotenv
 requests
 trafilatura
