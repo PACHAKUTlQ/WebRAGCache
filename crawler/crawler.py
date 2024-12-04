@@ -1,3 +1,4 @@
+import asyncio
 from crawler.keyword_generator import KeywordGenerator
 from crawler.google_search import GoogleSearch
 from crawler.web_scraper import WebScraper
@@ -16,8 +17,9 @@ class Crawler:
     def search_google(self, search_keyword):
         return self.google_search.search_google(search_keyword)
 
-    def scrape_page(self, url):
-        return self.web_scraper.scrape_page(url)
+    async def scrape_pages(self, urls):
+        tasks = [self.web_scraper.scrape_page(url) for url in urls]
+        return await asyncio.gather(*tasks)
 
     def search_and_crawl(self, prompt):
         keywords_and_tags = self.generate_keywords_and_tags(prompt)
@@ -25,8 +27,12 @@ class Crawler:
         tags = keywords_and_tags['tags']
 
         search_results = self.search_google(search_keyword)
-        for result in search_results:
-            result['content'] = self.scrape_page(result['url'])
+        urls = [result['url'] for result in search_results]
+        loop = asyncio.get_event_loop()
+        contents = loop.run_until_complete(self.scrape_pages(urls))
+
+        for result, content in zip(search_results, contents):
+            result['content'] = content
 
         return {
             'search_keyword': search_keyword,

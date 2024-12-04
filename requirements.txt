@@ -1,3 +1,4 @@
+aiohttp
 openai
 python-dotenv
 requests
